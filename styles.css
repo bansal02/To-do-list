@@ -1,35 +1,51 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 800px;
+	font-family: Arial, sans-serif;
+	padding: 20px;
+  }
+  
+  h1 {
+	text-align: center;
+	margin-bottom: 20px;
+  }
+  
+  input[type="text"] {
+	margin-bottom: 10px;
+	width: 49%;
+	padding: 8px 20px;
+  }
+  input[type="date"], select{
+	margin-bottom: 10px;
+	padding: 8px 20px;
+  }
+  ul {
+	list-style: none;
+	padding: 0;
+  }
+  
+  li {
+	margin-bottom: 10px;
+  }
+  
+  .tags {
+	margin-top: 5px;
+	font-size: 12px;
+  }
+  
+  .label {
+	padding: 2px 5px;
+	margin-right: 5px;
+  }
+  .container {
+    max-width: 700px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
-h1 {
-    text-align: center;
+.label-primary{
+	font-size: 15px;
 }
-
-form {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-}
-
-input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.but-add {
+.btn-add {
 	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
 	background-color:#44c767;
 	border-radius:23px;
@@ -40,43 +56,36 @@ input[type="text"] {
 	font-family:Arial;
 	font-size:17px;
 	font-weight:bold;
-	padding:9px 24px;
+	padding:4px 9px;
 	text-shadow:0px 1px 0px #2f6627;
     margin-left: 10px;
 }
+.priority {
+	background-color: red;
+  }
 
-ul {
-    list-style-type: none;
-    padding: 10px;
+.todo-item-p{
+	line-height: 2.5em;
 }
-
-li {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-}
-
-
-.delete-btn {
-	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
-	background-color:#44c767;
-	border-radius:23px;
-	border:3px solid #18ab29;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:17px;
-	font-weight:bold;
-	padding:4px 18px;
-	text-shadow:0px 1px 0px #2f6627;
+.hello{
+	display: inline;
 	margin-left: auto;
 }
-.delete-btn:hover {
-	background:linear-gradient(to bottom, #5cbf2a 5%, #44c767 100%);
-	background-color:#5cbf2a;
+.input.largerCheckbox {
+	width: 40px;
+	height: 40px;
 }
-.delete-btn:active {
-	position:relative;
-	top:1px;
+.subtask-input {
+	display: none;
+	margin-top: 5px;
+  }
+
+  #content2::before{
+    content: "\a";
+    white-space: pre;
 }
+.vertical-center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+  }

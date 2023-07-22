@@ -1,21 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>To-Do List</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>To-Do List</h1>
-        <form id="todo-form">
-            <input type="text" id="todo-input" placeholder="Enter a task">
-            <button class="but-add" type="submit">Add</button>
-        </form>
-        <div id="todo-list-container">
-            <ul id="todo-list"></ul>
-        </div>
+  <div class="container">
+    <h1>Todo List</h1>
+    <input type="text" id="newTodo" placeholder="Add a new task">
+    <select id="category" class="form-control" style="margin-bottom: 10px; ">
+      <option value="">Select Category</option>
+      <option value="">Deep Work</option>
+      <option value="">Shallow Work</option>
+      <option value="">Chores</option>
+      <option value="">Learning</option>
+      <option value="">Mind Care</option>
+      <option value="">Body Care</option>
+      <option value="">People</option>
+      <option value="">Next Week</option>
+    </select>
+    <select id="priority" class="form-control" style="margin-bottom: 10px; ">
+        <option value="">Select Priority</option>
+        <option value="">Low</option>
+        <option value="">Medium</option>
+        <option value="">High</option>
+    </select>
+    <span id="content2">From <input type="date" id="startDate" style="margin-bottom: 10px; padding-bottom: 4px;"> &nbsp;to &nbsp;
+    <input type="date" id="lastDate" style="margin-bottom: 10px; padding-bottom: 4px;"></span>
+    <input type="text" id="tag" placeholder="Tag" style="width: 38%; padding-bottom: 4px;">
+    <div style="padding-bottom: 8px;padding-top: 8px; margin-left: 40%;">
+    <button onclick="addTodo()"  class="btn btn-add btn-primary btn-block">Add Todo</button>
     </div>
-
-    <script src="script.js"></script>
+    <div>
+    <button onclick="backlogs()" class="btn btn-add btn-primary btn-block">Backlogs</button>
+    <button onclick="activetask()" class="btn btn-add btn-primary btn-block">Active Tasks</button>
+    <button onclick="alltask()" class="btn btn-add btn-primary btn-block">All Tasks</button>
+    <form id="filterForm">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        
+      </select>
+      <select id="priorityFilter">
+        <option value="">All Priorities</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button type="button" onclick="filterTodoList()">Filter</button>
+    </form>
+    </div>
+    <ul id="todoList" class="list-group"></ul>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
