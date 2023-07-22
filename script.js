@@ -1,6 +1,6 @@
 const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
 
-
+const reminders = [];
 
 function saveToLocalStorage() {
   localStorage.setItem('todoList', JSON.stringify(todoList));
@@ -47,6 +47,63 @@ function renderTodoList() {
   }
 }
 
+function renderfilterTodoList() {
+  let idd=1;
+  const categoryFilter = document.getElementById('categoryFilter');
+  const categoryFilterText = categoryFilter.options[categoryFilter.selectedIndex].text;
+  const priorityFilter = document.getElementById('priorityFilter');
+  const priorityFilterText = priorityFilter.options[priorityFilter.selectedIndex].text;
+  const dueDate = document.getElementById('dueDate').value;
+  const per = "All Priorities";
+  const pot = "All Categories";
+  const todoListElement = document.getElementById('todoList');
+  todoListElement.innerHTML = '';
+
+  for (const todo of todoList) {
+    console.log(dueDate);
+    console.log(todo.lastDate);
+    if (
+      (categoryFilterText === pot || todo.category === categoryFilterText) &&
+      (priorityFilterText === per || todo.priority === priorityFilterText) &&
+      (dueDate === '' || todo.lastDate === dueDate)
+    ) {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span style="font-size :25px; padding-top: 50px">${idd}. </span>
+          <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
+          <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
+          <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
+          <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
+        </div>
+          <ul id="subtasks-${todo.id}">
+          ${renderSubtasks(todo.subtasks)}
+        </ul>
+        <div>
+      <span style="line-height: 8px">&nbsp;</span></div>
+        <div class="subtask-input" id="subtaskInput-${todo.id}">
+          <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
+          <button onclick="addSubtask(${todo.id})">Save</button>
+        </div>
+        <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
+      </div>
+      <div>
+      <span style="line-height: 8px">&nbsp;</span></div>
+      <div class="tags mt-2">
+        <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}&nbsp;&nbsp;&nbsp; Tag:  ${todo.tags}</span>
+      </div>
+      <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
+      <div>
+      <span style="line-height: 20px">&nbsp;</span></div>
+    `;
+    todoListElement.appendChild(li);
+    idd++;
+  }
+}
+}
+
 function renderSubtasks(subtasks) {
   return subtasks.map((subtask, index) => `
     <li>
@@ -72,34 +129,34 @@ function activetask(){
     const li = document.createElement('li');
     li.className = 'list-group-item';
     li.innerHTML = `
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <span style="font-size :25px; padding-top: 50px">${idd}. </span>
-          <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
-          <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
-          <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
-          <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
-        </div>
-          <ul id="subtasks-${todo.id}">
-          ${renderSubtasks(todo.subtasks)}
-        </ul>
-        <div>
-      <span style="line-height: 8px">&nbsp;</span></div>
-        <div class="subtask-input" id="subtaskInput-${todo.id}">
-          <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
-          <button onclick="addSubtask(${todo.id})">Add Subtask</button>
-        </div>
-        <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
-      </div>
-      <div>
-      <span style="line-height: 8px">&nbsp;</span></div>
-      <div class="tags mt-2">
-        <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}</span>
-      </div>
-      <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
-      <div>
-      <span style="line-height: 20px">&nbsp;</span></div>
-    `;
+    <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span style="font-size :25px; padding-top: 50px">${idd}. </span>
+      <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
+      <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
+      <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
+      <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
+    </div>
+      <ul id="subtasks-${todo.id}">
+      ${renderSubtasks(todo.subtasks)}
+    </ul>
+    <div>
+  <span style="line-height: 8px">&nbsp;</span></div>
+    <div class="subtask-input" id="subtaskInput-${todo.id}">
+      <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
+      <button onclick="addSubtask(${todo.id})">Save</button>
+    </div>
+    <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
+  </div>
+  <div>
+  <span style="line-height: 8px">&nbsp;</span></div>
+  <div class="tags mt-2">
+    <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}&nbsp;&nbsp;&nbsp; Tag:  ${todo.tags}</span>
+  </div>
+  <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
+  <div>
+  <span style="line-height: 20px">&nbsp;</span></div>
+`;
     todoListElement.appendChild(li);
     idd++;
   }
@@ -116,34 +173,34 @@ function backlogs(){
     const li = document.createElement('li');
     li.className = 'list-group-item';
     li.innerHTML = `
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <span style="font-size :25px; padding-top: 50px">${idd}. </span>
-          <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
-          <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
-          <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
-          <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
-        </div>
-          <ul id="subtasks-${todo.id}">
-          ${renderSubtasks(todo.subtasks)}
-        </ul>
-        <div>
-      <span style="line-height: 8px">&nbsp;</span></div>
-        <div class="subtask-input" id="subtaskInput-${todo.id}">
-          <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
-          <button onclick="addSubtask(${todo.id})">Add Subtask</button>
-        </div>
-        <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
-      </div>
-      <div>
-      <span style="line-height: 8px">&nbsp;</span></div>
-      <div class="tags mt-2">
-        <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}</span>
-      </div>
-      <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
-      <div>
-      <span style="line-height: 20px">&nbsp;</span></div>
-    `;
+    <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span style="font-size :25px; padding-top: 50px">${idd}. </span>
+      <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
+      <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
+      <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
+      <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
+    </div>
+      <ul id="subtasks-${todo.id}">
+      ${renderSubtasks(todo.subtasks)}
+    </ul>
+    <div>
+  <span style="line-height: 8px">&nbsp;</span></div>
+    <div class="subtask-input" id="subtaskInput-${todo.id}">
+      <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
+      <button onclick="addSubtask(${todo.id})">Save</button>
+    </div>
+    <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
+  </div>
+  <div>
+  <span style="line-height: 8px">&nbsp;</span></div>
+  <div class="tags mt-2">
+    <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}&nbsp;&nbsp;&nbsp; Tag:  ${todo.tags}</span>
+  </div>
+  <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
+  <div>
+  <span style="line-height: 20px">&nbsp;</span></div>
+`;
     todoListElement.appendChild(li);
     idd++;
   }
@@ -287,4 +344,103 @@ function deleteSubtask(subtaskIndex) {
     }
   }
 }
+function filterTodoList() {
+  renderfilterTodoList();
+}
+
+function searchTodo() {
+  let idd = 1;
+  const searchTerm = document.getElementById('searchTodo').value.trim().toLowerCase();
+  const todoListElement = document.getElementById('todoList');
+  todoListElement.innerHTML = '';
+
+  for (const todo of todoList) {
+    if (
+      todo.text.toLowerCase().includes(searchTerm) || todo.category.toLowerCase().includes(searchTerm) || todo.tags.toLowerCase().includes(searchTerm) ||
+      todo.subtasks.some(subtask => subtask.text.toLowerCase().includes(searchTerm))
+    ) {
+      const li = document.createElement('li');
+      li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span style="font-size :25px; padding-top: 50px">${idd}. </span>
+            <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
+            <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
+            <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
+            <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
+          </div>
+            <ul id="subtasks-${todo.id}">
+            ${renderSubtasks(todo.subtasks)}
+          </ul>
+          <div>
+        <span style="line-height: 8px">&nbsp;</span></div>
+          <div class="subtask-input" id="subtaskInput-${todo.id}">
+            <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
+            <button onclick="addSubtask(${todo.id})">Save</button>
+          </div>
+          <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
+        </div>
+        <div>
+        <span style="line-height: 8px">&nbsp;</span></div>
+        <div class="tags mt-2">
+          <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}&nbsp;&nbsp;&nbsp; Tag:  ${todo.tags}</span>
+        </div>
+        <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
+        <div>
+        <span style="line-height: 20px">&nbsp;</span></div>
+      `;
+      todoListElement.appendChild(li);
+      idd++;
+    }
+  }
+}
+
+function sortTodoList() {
+  const sortOption = document.getElementById('sortOption');
+  const sortOptionText = sortOption.options[sortOption.selectedIndex].text;
+  console.log(sortOptionText);
+  if (sortOptionText === "lastDate") {
+    todoList.sort((a, b) => {
+      const dateA = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31');
+      const dateB = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31');
+      return dateA - dateB;
+    });
+  } else if (sortOptionText === "Priority") {
+    todoList.sort((a, b) => {
+      const priorityOrder = { low: 1, medium: 2, high: 3 };
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+  }
+
+  renderTodoList();
+}
+
+function checkReminders() {
+  const currentDateTime = new Date();
+  console.log(currentDateTime);
+  for (const todo of todoList) {
+    const dueDateTime = new Date(todo.lastDate);
+    console.log(dueDateTime);
+    if (dueDateTime.getDate() === currentDateTime.getDate() &&
+        dueDateTime.getMonth() === currentDateTime.getMonth() &&
+        dueDateTime.getFullYear() === currentDateTime.getFullYear()) {
+      reminders.push(`Reminder: Task "${todo.text}" is due Today!`);
+    }
+  }
+}
+ 
+setInterval(() => {
+  reminders.length = 0;
+  checkReminders();
+}, 10 * 60 * 1000);
+
+function showReminders() {
+  checkReminders()
+  if (reminders.length === 0) {
+    alert("No reminders at the moment.");
+  } else {
+    alert(reminders.join("\n"));
+  }
+}
+
 renderTodoList();

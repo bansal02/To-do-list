@@ -10,7 +10,7 @@ body {
   
   input[type="text"] {
 	margin-bottom: 10px;
-	width: 49%;
+	width: 48%;
 	padding: 8px 20px;
   }
   input[type="date"], select{

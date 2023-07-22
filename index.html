@@ -12,14 +12,14 @@
     <input type="text" id="newTodo" placeholder="Add a new task">
     <select id="category" class="form-control" style="margin-bottom: 10px; ">
       <option value="">Select Category</option>
-      <option value="">Deep Work</option>
-      <option value="">Shallow Work</option>
-      <option value="">Chores</option>
+      <option value="">Office</option>
       <option value="">Learning</option>
-      <option value="">Mind Care</option>
-      <option value="">Body Care</option>
+      <option value="">Health</option>
+      <option value="">Daily Routine</option>
+      <option value="">Personal Project</option>
+      <option value="">Diet</option>
       <option value="">People</option>
-      <option value="">Next Week</option>
+      <option value="">Entertainment</option>
     </select>
     <select id="priority" class="form-control" style="margin-bottom: 10px; ">
         <option value="">Select Priority</option>
@@ -30,26 +30,48 @@
     <span id="content2">From <input type="date" id="startDate" style="margin-bottom: 10px; padding-bottom: 4px;"> &nbsp;to &nbsp;
     <input type="date" id="lastDate" style="margin-bottom: 10px; padding-bottom: 4px;"></span>
     <input type="text" id="tag" placeholder="Tag" style="width: 38%; padding-bottom: 4px;">
-    <div style="padding-bottom: 8px;padding-top: 8px; margin-left: 40%;">
+    <div style="padding-bottom: 8px;padding-top: 8px; margin-left: 43%;">
     <button onclick="addTodo()"  class="btn btn-add btn-primary btn-block">Add Todo</button>
     </div>
     <div>
+      <form id="filterForm">
+        <input type="date" id="dueDate" style="width:27%">
+        <select id="categoryFilter" style="width:27%">
+          <option value="">All Categories</option>
+          <option value="">Office</option>
+          <option value="">Learning</option>
+          <option value="">Health</option>
+          <option value="">Daily Routine</option>
+          <option value="">Personal Project</option>
+          <option value="">Diet</option>
+          <option value="">People</option>
+          <option value="">Entertainment</option>
+        </select>
+        <select id="priorityFilter" style="width:27%">
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button type="button" onclick="filterTodoList()" class="btn-add">Filter</button>
+      </form>
+    </div>
+    <div style="padding-top: 10px;">
+      <input type="text" id="searchTodo" placeholder="Search for tasks" style="width: 30%">
+      <button onclick="searchTodo()" class="btn-add">Search</button>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <select id="sortOption">
+        <option value="">Sort By</option>
+        <option value="lastDate">Last Date</option>
+        <option value="priority">Priority</option>
+      </select>
+      <button onclick="sortTodoList()" class="btn-add">Sort</button>
+    </div>
+    <div style="margin-left: 70px; padding-top: 20px;">
     <button onclick="backlogs()" class="btn btn-add btn-primary btn-block">Backlogs</button>
     <button onclick="activetask()" class="btn btn-add btn-primary btn-block">Active Tasks</button>
     <button onclick="alltask()" class="btn btn-add btn-primary btn-block">All Tasks</button>
-    <form id="filterForm">
-      <select id="categoryFilter">
-        <option value="">All Categories</option>
-        
-      </select>
-      <select id="priorityFilter">
-        <option value="">All Priorities</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <button type="button" onclick="filterTodoList()">Filter</button>
-    </form>
+    <button onclick="showReminders()" class="btn-add">Show Reminders</button>
     </div>
     <ul id="todoList" class="list-group"></ul>
   </div>
