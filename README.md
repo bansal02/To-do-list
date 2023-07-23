@@ -1,12 +1,12 @@
 1. Double click the Add subtask button to make it work
-I am able to implement:
+2. I am able to implement:
 
-Add Todo: Users can add new tasks to the todo list.
-Edit Todo: Users can edit the details of existing tasks.
-Delete Todo: Users can remove tasks from the todo list. 
-Mark as Done: Users can mark tasks as completed.
-Mark as Undone: Users can mark completed tasks as undone.
-Add Category: Users can categorize tasks to organize them better. 
+3. Add Todo: Users can add new tasks to the todo list.
+4. Edit Todo: Users can edit the details of existing tasks.
+5. Delete Todo: Users can remove tasks from the todo list. 
+6. Mark as Done: Users can mark tasks as completed.
+7. Mark as Undone: Users can mark completed tasks as undone.
+8. Add Category: Users can categorize tasks to organize them better. 
 Store Todo in Local Storage: The todo list will be stored in the browser's local storage to persist the data. 
 Add Due-date to Todo: Users can set due-dates for tasks to track deadlines. 
 Priority: Tasks can be assigned a priority level (low, medium, high). 
