@@ -319,6 +319,7 @@ function getTodoIdForSubtask(subtaskIndex) {
 }
 
 function editSubtask(subtaskIndex) {
+  console.log(subtaskIndex);
   const todoId = getTodoIdForSubtask(subtaskIndex);
   if (todoId !== null) {
     const todo = todoList.find(todo => todo.id === todoId);
@@ -350,7 +351,8 @@ function filterTodoList() {
 
 function searchTodo() {
   let idd = 1;
-  const searchTerm = document.getElementById('searchTodo').value.trim().toLowerCase();
+  const searchTermww = document.getElementById('searchTodo').value;
+  const searchTerm = searchTermww.trim().toLowerCase();
   const todoListElement = document.getElementById('todoList');
   todoListElement.innerHTML = '';
 
@@ -393,23 +395,25 @@ function searchTodo() {
       idd++;
     }
   }
+  searchTermww.value = '';
 }
 
 function sortTodoList() {
   const sortOption = document.getElementById('sortOption');
   const sortOptionText = sortOption.options[sortOption.selectedIndex].text;
-  console.log(sortOptionText);
-  if (sortOptionText === "lastDate") {
-    todoList.sort((a, b) => {
-      const dateA = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31');
-      const dateB = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31');
-      return dateA - dateB;
+  
+  if (sortOptionText === "Last Date") {
+    const sortitbydate = todoList.sort((a, b) => {
+      return new Date(a.lastDate).getTime() - new Date(b.lastDate).getTime();
     });
-  } else if (sortOptionText === "Priority") {
-    todoList.sort((a, b) => {
-      const priorityOrder = { low: 1, medium: 2, high: 3 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    renderSortTodoList(sortitbydate);
+  } 
+  else if (sortOptionText === "Priority") {
+    const priorityOrder = { "Low": 1, "Medium": 2, "High": 3 };
+    const sortitbypriority = todoList.sort((a, b) => {
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
+    renderSortTodoList(sortitbypriority);
   }
 
   renderTodoList();
@@ -440,6 +444,47 @@ function showReminders() {
     alert("No reminders at the moment.");
   } else {
     alert(reminders.join("\n"));
+  }
+}
+
+function renderSortTodoList(todoList) {
+  let idd=1;
+  const todoListElement = document.getElementById('todoList');
+  todoListElement.innerHTML = '';
+  for (const todo of todoList) {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span style="font-size :25px; padding-top: 50px">${idd}. </span>
+          <input type="checkbox" class="form-check-input largerCheckbox" onchange="toggleDone(${todo.id})" ${todo.done ? 'checked' : ''}>
+          <span style="font-size :25px">Task: </span>&nbsp;<span style="font-size :25px">${todo.text}</span>
+          <button onclick="editTodo(${todo.id})" class="btn btn-sm btn-primary mr-2">Edit</button>
+          <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-danger">Delete</button>
+        </div>
+          <ul id="subtasks-${todo.id}">
+          ${renderSubtasks(todo.subtasks)}
+        </ul>
+        <div>
+      <span style="line-height: 8px">&nbsp;</span></div>
+        <div class="subtask-input" id="subtaskInput-${todo.id}">
+          <input type="text" id="newSubtask-${todo.id}" placeholder="Add a subtask">
+          <button onclick="addSubtask(${todo.id})">Save</button>
+        </div>
+        <button onclick="toggleSubtaskInput(${todo.id})">Add Subtask</button>
+      </div>
+      <div>
+      <span style="line-height: 8px">&nbsp;</span></div>
+      <div class="tags mt-2">
+        <span style="font-size :15px" class="label label-primary">Category:  ${todo.category}&nbsp;&nbsp;&nbsp; Tag:  ${todo.tags}</span>
+      </div>
+      <small style="font-size :12px" class="text-muted">&nbsp;&nbsp;Task Period: ${todo.startDate ? new Date(todo.startDate).toLocaleDateString() : 'NULL'} to  ${todo.lastDate ? new Date(todo.lastDate).toLocaleDateString() : 'NULL'}&nbsp;&nbsp; Priority: ${todo.priority} </small>
+      <div>
+      <span style="line-height: 20px">&nbsp;</span></div>
+    `;
+    todoListElement.appendChild(li);
+    idd++;
   }
 }
 
